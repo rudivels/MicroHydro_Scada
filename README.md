@@ -16,7 +16,7 @@ Programa para Raspberry que faça a leitura de valores elétricos um multimedido
 - Script em bash que temporiza o envio
 - Cron para carregar o programa na inicialização
 
-Antes de rodar os programa tem que configurar o Raspberry para que habiliar a porta serial. Isso pode ser feito com o comando :
+Antes de rodar os programa tem que configurar o Raspberry para que habiliar a porta serial. Isso pode ser feito com o comando:
 ```
 $ rasp-config
 ```
