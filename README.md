@@ -1,5 +1,5 @@
 # Programa para monitorar multimedidor via MQTT
-Rudivels@ 29/02/2020
+Rudivels@ 30/02/2020
 
 Programa para Raspberry que faça a leitura de valores elétricos um multimedidor com MODBUS-RTU e publica estes dados a cada 10 segundos via internet usando um servidor MQTT públic, além de armazena-los no próprio Raspberry.
 
