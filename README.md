@@ -18,7 +18,7 @@ Programa para Raspberry que faça a leitura de valores elétricos um multimedido
 
 Antes de rodar os programa tem que configurar o Raspberry para que habiliar a porta serial. Isso pode ser feito com o comando:
 ```
-$ rasp-config
+$ raspi-config
 ```
 Outra preocupação é garantir a habilitação para que o módulo serial do Python consegue trabalhar no modo half-duplex. Isso é feito pela instalação do programa do rpirtsrtc disponível no <https://github.com/mholling/rpirtscts> num diretório de trabalho no Raspberry.
 ```
