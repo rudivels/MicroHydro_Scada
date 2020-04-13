@@ -56,6 +56,11 @@ nohup ./loop_publish.sh  & > /dev/null &
 
 ### Cron para carregar o programa na inicialização
 
+O programa para configurar o cron é o 
+```
+$ crontab -e
+```
+Também pode-se editar o arquivo de configuração do cron diretamente. Nas ultimas linhas do arquivo adiciona os seguintes comandos.
 ```
 @reboot /home/pi/bin/rpirtscts on
 @reboot nohup /home/pi/src/MicroHydro_Scada/loop_publish.sh  & > /dev/null &
