@@ -25,11 +25,20 @@ Este respositário detalhará a implementação do protocolo Modbus-RTU no Ardui
 Os detalhes do controlador de carga e interface com display serão registrados em outro repositório git.
 
 
-## Hardware
+## Implementação 
+
+O hardware usado na implementação tem os seguintes componentes:
 - Raspberry Pi com Raspbian
 - USB 4G Dongle
 - Multimedior Sentron com interface RS485
 - Conversor TTL RS485 half-duplex
+
+
+#### Raspberry Pi
+
+#### USB 4G Dongle
+
+#### Multimedidor
 
 #### Conversor RS485 half-duplex
 Há diversas maneiras de implementar o conversor RS485 para o Raspberry. Uma maneira é por meio de um conversor USB/RS485 que implementa toda funcionalidade do UART e a comunicação half duplex no próprio conversor. 
