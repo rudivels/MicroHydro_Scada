@@ -29,9 +29,9 @@ Os detalhes do controlador de carga e interface com display serão registrados e
 - Raspberry Pi com Raspbian
 - USB 4G Dongle
 - Multimedior Sentron com interface RS485
-
 - Conversor TTL RS485 half-duplex
 
+#### Conversor RS485 half-duplex
 Há diversas maneiras de implementar o conversor RS485 para o Raspberry. Uma maneira é por meio de um conversor USB/RS485 que implementa toda funcionalidade do UART e a comunicação half duplex no próprio conversor. 
 No nosso caso resolvemos usar a própria UART disponível no barramento de expansão do Raspberry. Os pinos 8,10 no barramento de expansão podem ser configurados para recepção RX e transmissão TX respectivamente da porta serial /dev/ttyAMA0. Como os níveis da tensão neste barramento são CMOS 3.3v é necessária um conversor CMOS/TTL/RS485. O esquematico eletrônico desse conversor é mostrada na figura a seguir.
 
