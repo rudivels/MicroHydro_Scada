@@ -10,18 +10,13 @@ Além disso, o central tem que perimitir a configuração e/ou reprogramação r
 
 Escolheu-se implementar o hardware do central com o Raspberry rodando raspbian (linux debian para Raspberry). O diagrama de bloco do sistema é mostrada no figura a seguir.  
 
-![Diagrama de blocos](./Diagrama_blocos.jpg)
-
 
 <img src="Diagrama_blocos.jpg" alt="Diagrama" title="Diagrama" width="450"  height="300" />
 
 Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Display a mostrada a seguir.
 
-![Quadra](./foto_quadro.jpg)
 
 <img src="foto_quadro.jpg" alt="Quadro" title="Quadro" width="450"  height="300" />
-
-<img src="foto_quadro.jpg" alt="Quadro" title="Quadro" width="300"  height="200" />
 
 
 Este respositário detalhará a implementação do protocolo Modbus-RTU no Arduino, e a comunicação via MQTT a computador de monitoramento.
@@ -34,8 +29,9 @@ Os detalhes do controlador de carga e interface com display serão registrados e
 - Conversor TTL RS485 half-duplex
 - USB 4G Dongle
 
-![Alt text](./conv_cmos_rs485.jpg)
+O esquematico eletrônico do conversor TTL/CMOS para RS485 halfduplex é mostrada na figura a seguir.
 
+<img src="./conv_cmos_rs485.jpg" alt="Quadro" title="Quadro" width="450"  height="300" />
 
 
  
