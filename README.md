@@ -8,13 +8,17 @@ Este programa faz parte de um projeto de um central de monitoramento e comando d
 
 Além disso, o central tem que perimitir a configuração e/ou reprogramação remota de um controlador de carga dessa micro unidade geradora de energia elétrica. O controlador de carga é implementado num microcontrolador Arduino que será documentado em outro repositório no meu github. 
 
-Escolheu-se implementar o hardware do central com o Raspberry rodando raspbian (linux debian para Raspberry). O diagrama de bloco do sistema todo:  
+Escolheu-se implementar o hardware do central com o Raspberry rodando raspbian (linux debian para Raspberry). O diagrama de bloco do sistema é mostrada no figura a seguir.  
 
-![Alt text](./Diagrama_blocos.jpg)
+![Diagrama de blocos](./Diagrama_blocos.jpg)
 
-Um foto do hardware montado:
+Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Display a mostrada a seguir.
 
 ![Alt text](./foto_quadro.jpg)
+
+Este respositário detalhará a implementação do protocolo Modbus-RTU no Arduino, e a comunicação via MQTT a computador de monitoramento.
+Os detalhes do controlador de carga e interface com display serão registrados em outro repositório git.
+
 
 ## Hardware
 - Raspberry Pi com Raspbian
