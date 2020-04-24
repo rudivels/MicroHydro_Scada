@@ -33,7 +33,7 @@ Os detalhes do controlador de carga e interface com display serão registrados e
 
 O esquematico eletrônico do conversor TTL/CMOS para RS485 halfduplex é mostrada na figura a seguir.
 
-<img src="./conv_cmos_rs485.jpg" alt="Quadro" title="Quadro" width="450"  height="300" />
+<img src="./conv_cmos_rs485.jpg" alt="Quadro" title="Quadro" width="450"  height="300" border="1px solid blue" />
 
 
  
