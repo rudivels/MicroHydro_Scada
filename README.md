@@ -3,11 +3,28 @@ Rudivels@ 30/02/2020
 
 Programa para Raspberry que faça a leitura de valores elétricos um multimedidor com MODBUS-RTU e publica estes dados a cada 10 segundos via internet usando um servidor MQTT públic, além de armazena-los no próprio Raspberry.
 
+## Apresentação
+Este programa faz parte de um projeto de um central de monitoramento e comando de uma micro unidade geradora de energia elétrica numa localidade remota. Este central tem que monitorar a geração de energia elétrica e sua qualidade (potência, energia, fator de potência, interrupções de fornecimento, etc), e mandar essas informações via internet para um computador central onde será intergrada num sistema Supervisório Control and Data Aquisition (Scada).
+
+Além disso, o central tem que perimitir a configuração e/ou reprogramação remota de um controlador de carga dessa micro unidade geradora de energia elétrica. O controlador de carga é implementado num microcontrolador Arduino que será documentado em outro repositório no meu github. 
+
+Escolheu-se implementar o hardware do central com o Raspberry rodando raspbian (linux debian para Raspberry). O diagrama de bloco do sistema todo:  
+
+![Alt text](./Diagrama_blocos.jpg)
+
+Um foto do hardware montado:
+
+![Alt text](./foto_quadro.jpg)
+
 ## Hardware
 - Raspberry Pi com Raspbian
 - Multimedior Sentron com interface RS485
 - Conversor TTL RS485 half-duplex
 - USB 4G Dongle
+
+![Alt text](./conv_cmos_rs485.jpg)
+
+
 
  
 ## Software
