@@ -17,6 +17,10 @@ Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Displa
 ![Alt text](./foto_quadro.jpg)
 
 
+![Alt text](./foto_quadro1.jpg)
+
+
+
 Este respositário detalhará a implementação do protocolo Modbus-RTU no Arduino, e a comunicação via MQTT a computador de monitoramento.
 Os detalhes do controlador de carga e interface com display serão registrados em outro repositório git.
 
