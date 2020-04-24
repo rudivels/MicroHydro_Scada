@@ -14,7 +14,7 @@ Escolheu-se implementar o hardware do central com o Raspberry rodando raspbian (
 
 Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Display a mostrada a seguir.
 
-![Alt text](./foto_quadro.jpg)
+![Alt text](./foto_quadro.jpg){ width=50% }
 
 
 ![Alt text](./foto_quadro1.png)
