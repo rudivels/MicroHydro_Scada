@@ -17,7 +17,7 @@ Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Displa
 ![Alt text](./foto_quadro.jpg)
 
 
-![Alt text](./foto_quadro1.jpg)
+![Alt text](./foto_quadro1.png)
 
 
 
