@@ -13,7 +13,7 @@ Escolheu-se implementar o hardware do central com o Raspberry rodando raspbian (
 ![Diagrama de blocos](./Diagrama_blocos.jpg)
 
 
-<img src="Diagrama_blocoso.jpg" alt="Diagrama" title="Diagrama" width="450"  height="300" />
+<img src="Diagrama_blocos.jpg" alt="Diagrama" title="Diagrama" width="450"  height="300" />
 
 Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Display a mostrada a seguir.
 
@@ -21,6 +21,7 @@ Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Displa
 
 <img src="foto_quadro.jpg" alt="Quadro" title="Quadro" width="450"  height="300" />
 
+<img src="foto_quadro.jpg" alt="Quadro" title="Quadro" width="300"  height="200" />
 
 
 Este respositário detalhará a implementação do protocolo Modbus-RTU no Arduino, e a comunicação via MQTT a computador de monitoramento.
