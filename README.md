@@ -13,13 +13,13 @@ Escolheu-se implementar o hardware do central com o Raspberry rodando raspbian (
 ![Diagrama de blocos](./Diagrama_blocos.jpg)
 
 
-<img src="diagrama_blocoso.jpg" alt="Diagrama" title="Diagrama" width="450"  height="400" />
+<img src="Diagrama_blocoso.jpg" alt="Diagrama" title="Diagrama" width="450"  height="300" />
 
 Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Display a mostrada a seguir.
 
+![Quadra](./foto_quadro.jpg)
 
-
-<img src="foto_quadro.jpg" alt="Quadro" title="Quadro" width="450"  height="400" />
+<img src="foto_quadro.jpg" alt="Quadro" title="Quadro" width="450"  height="300" />
 
 
 
