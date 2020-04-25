@@ -6,14 +6,14 @@ Programa para Raspberry que faça a leitura de valores elétricos um multimedido
 ## 1. Apresentação
 Este programa faz parte de um projeto de um central de monitoramento e comando de uma micro unidade geradora de energia elétrica numa localidade remota. Este central tem que monitorar a geração de energia elétrica e sua qualidade (potência, energia, fator de potência, interrupções de fornecimento, etc), e mandar essas informações via internet para um computador central onde será intergrada num sistema Supervisório Control and Data Aquisition (Scada).
 
-Além disso, o central tem que perimitir a configuração e/ou reprogramação remota de um controlador de carga dessa micro unidade geradora de energia elétrica. O controlador de carga é implementado num microcontrolador Arduino que será documentado em outro repositório no meu github. 
+Além disso, o central tem que perimitir a configuração e/ou reprogramação remota de um controlador de carga dessa micro unidade geradora de energia elétrica. Este controlador de carga é implementado num microcontrolador Arduino que será documentado em outro repositório no meu github. 
 
-Escolheu-se implementar o hardware do central com o Raspberry rodando raspbian (linux debian para Raspberry). O diagrama de bloco do sistema é mostrada no figura a seguir.  
+Escolheu-se implementar o hardware do central com o Raspberry rodando raspbian (linux debian para Raspberry). O diagrama de bloco de todo o sistema é mostrada no figura a seguir.  
 
 
 <img src="Diagrama_blocos.jpg" alt="Diagrama" title="Diagrama" width="600"  height="450" />
 
-Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Display a mostrada a seguir.
+Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Display é mostrada a seguir.
 
 
 <img src="foto_quadro.jpg" alt="Quadro" title="Quadro" width="450"  height="300" />
@@ -21,8 +21,8 @@ Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Displa
 .
 
 
-Este respositário detalhará a implementação do protocolo Modbus-RTU no Arduino, e a comunicação via MQTT a computador de monitoramento.
-Os detalhes do controlador de carga e interface com display serão registrados em outro repositório git.
+Este respositório detalhará a implementação do protocolo Modbus-RTU no Arduino, e a comunicação via MQTT a computador de monitoramento.
+Os detalhes da interface com display LCD estão disponíveis no repositório https://github.com/rudivels/st7920. O controlador de carga ainda será detalhada em repostório próprio.
 
 
 ## 2. Implementação 
@@ -39,6 +39,14 @@ O hardware usado na implementação tem os seguintes componentes:
 .
 .
 ### 2.2. USB 4G Dongle
+
+A comunicação entre o Raspberry com a internet é por meio de um modem roteador WiFi conforme mostrada na figura a seguir.
+
+<img src="foto_dongle.jpg" alt="Dongle" title="Dongle" width="450"  height="300" />
+
+A vantagem de usar este dispositivo é que além de permitir a ligação direta do Raspberry via USB, ele também permite o acesso outros computadores via SSH ou FTP ao Raspberry por meio da sua rede local WiFi. Assim o trabalho de configuração e manutenção em campo se torna mais prática. 
+As funcionalidade de envio de mensagens SMS também pode ser explorado no futuro para envio de alarmes. 
+
 ....
 ### 2.3. Multimedidor
 ....
