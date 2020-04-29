@@ -4,9 +4,11 @@ Rudivels@ 30/02/2020
 Programa para Raspberry que faça a leitura de valores elétricos um multimedidor com MODBUS-RTU e publica estes dados a cada 10 segundos via internet usando um servidor MQTT públic, além de armazena-los no próprio Raspberry.
 
 ## 1. Apresentação
-Este programa faz parte de um projeto de um central de monitoramento e comando de uma micro unidade geradora de energia elétrica numa localidade remota. Este central tem que monitorar a geração de energia elétrica e sua qualidade (potência, energia, fator de potência, interrupções de fornecimento, etc), e mandar essas informações via internet para um computador central onde será intergrada num sistema Supervisório Control and Data Aquisition (Scada).
+Este programa faz parte de um projeto de um central de monitoramento e comando de uma micro unidade geradora de energia elétrica numa localidade remota. Este central tem que monitorar a geração de energia elétrica e sua qualidade (potência, energia, fator de potência, interrupções de fornecimento, etc), e mandar essas informações via internet para um computador central onde será intergrada num sistema *Supervisório Control and Data Aquisition (Scada)*.
 
-Além disso, o central tem que perimitir a configuração e/ou reprogramação remota de um controlador de carga dessa micro unidade geradora de energia elétrica. Este controlador de carga é implementado num microcontrolador Arduino que será documentado em outro repositório no meu github. 
+Além disso, o central tem que perimitir a configuração e/ou reprogramação remota de um controlador de carga (*load controller*) dessa micro unidade geradora de energia elétrica. Este controlador de carga é implementado num hardware dedicado com microcontrolador Arduino que controle a rede trifásico de um pico central hidrelétrico por meio de um banco de triacs. 
+ainda será detalhada em repostório próprio. 
+Os detalhes dessa implementação esão no repositório <https://github.com/rudivels/Controlador_carga_3fas>.
 
 Escolheu-se implementar o hardware do central com o Raspberry rodando raspbian (linux debian para Raspberry). O diagrama de bloco de todo o sistema é mostrada no figura a seguir.  
 
@@ -18,11 +20,12 @@ Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Displa
 
 <img src="foto_quadro.jpg" alt="Quadro" title="Quadro" width="450"  height="300" />
 
-.
+
+Os detalhes da interface com display LCD com o Raspberry estão disponíveis no repositório <https://github.com/rudivels/st7920>. 
+
+Neste trabalho será detalhada a implementação do protocolo Modbus-RTU no Raspberry e a comunicação via MQTT com o Scada no computador de monitoramento.
 
 
-Este respositório detalhará a implementação do protocolo Modbus-RTU no Arduino, e a comunicação via MQTT a computador de monitoramento.
-Os detalhes da interface com display LCD estão disponíveis no repositório https://github.com/rudivels/st7920. O controlador de carga ainda será detalhada em repostório próprio.
 
 
 ## 2. Implementação 
