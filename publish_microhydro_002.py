@@ -66,26 +66,18 @@ tensao_A =   round(mod_medidor.leia(1),1)   # tensao 1
 tensao_B =   round(mod_medidor.leia(3),1)   # tensao 2
 tensao_C =   round(mod_medidor.leia(5),1)   # tensao 2
  
-corrente_A  =   round(mod_medidor.leia(13),1)   # tensao 2
-corrente_B  =   round(mod_medidor.leia(15),1)   # tensao 2
-corrente_C  =   round(mod_medidor.leia(17),1)   # tensao 2
+corrente_A  =   round(mod_medidor.leia(13),1)   # corrente 1
+corrente_B  =   round(mod_medidor.leia(15),1)   # corrente 2
+corrente_C  =   round(mod_medidor.leia(17),1)   # corrente 3
 
-pot_ativa_A =   round(mod_medidor.leia(25),1)   # tensao 2
-pot_ativa_B =   round(mod_medidor.leia(27),1)   # tensao 2
-pot_ativa_C =   round(mod_medidor.leia(29),1)   # tensao 2
+pot_ativa_A =   round(mod_medidor.leia(25),1)   # potencia 1
+pot_ativa_B =   round(mod_medidor.leia(27),1)   # potencia 2
+pot_ativa_C =   round(mod_medidor.leia(29),1)   # potencia 3
 
-fator_pot   =   round(mod_medidor.leia(53),1)   # tensao 2
+fator_pot   =   round(mod_medidor.leia(53),1)   # fator potencia
 
 s = str(agora)+";"+str(frequencia)+";"+ str(tensao_A)+";"+str(tensao_B)+";"+str(corrente_A)+";"+str(corrente_B)+";"+str(corrente_C)+";"+str(pot_ativa_A)+";"+str(pot_ativa_B)+";"+str(pot_ativa_B)+";"+str(fator_pot)
-# print("Data hora; Frequencia ; Tensao A ; Tensao B ")
-# print(s)
 
-#frequencia = round(60*random(),1) 
-#tensao_A =   round(10*random(),1) 
-#tensao_B =   round(100*random(),1) 
-#------------------------------------------------------
-
-#s = str(agora)+";"+str(frequencia)+";"+ str(tensao_A)+";"+str(tensao_B)
 publish.single("ChapHydro", s ,hostname="mqtt.eclipse.org")
 print(s)
 if (logfile == True) :
