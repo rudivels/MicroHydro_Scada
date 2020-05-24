@@ -87,6 +87,17 @@ A monitiração dos paramtros elétricos é realizado por um multimedior industr
 
 <img src="multimedidor.jpg" alt="Dongle" title="Dongle" width="300"  height="300" />
 
+Foi necessário configurar o Multimedidor
+ 
+```
+endereço escolhido = 1
+baudrate = 19200 bps
+tempo de resposta = 50ms
+```
+O tempo de resposta é necessário para sincronizar a leitura do controlador. 
+O protocolo Modbus prevê um tempo de resposta mínima que depende a velocidade do protocolo.
+
+
 
 ## 2.4. Conversor RS485 half-duplex
 Há diversas maneiras de implementar o conversor RS485 para o Raspberry. Uma maneira é por meio de um conversor USB/RS485 que implementa toda funcionalidade do UART e a comunicação half duplex no próprio conversor. 
