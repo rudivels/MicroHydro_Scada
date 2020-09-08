@@ -44,9 +44,9 @@ Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Displa
 
 
 
-## 2.1. Raspberry Pi
+## 2.1. Raspberry Pi 
 
-Minicomputador num placa SBC
+A primeira versão foi implementado com um raspberry Pi Model B+ V1.2 
 
 A conexão do Raspberry com os periféricos está na tabela a seguir.
 
@@ -72,7 +72,31 @@ A conexão do Raspberry com os periféricos está na tabela a seguir.
 
 Os detalhes da interface com display LCD com o Raspberry estão disponíveis no repositório <https://github.com/rudivels/st7920>. 
 
-## 2.2. USB 4G Dongle
+Conector do Raspberry PI com as ligações para o LCD e RS485 segue a tabela a seguir.
+
+
+| conec | pin | pin | conec |
+|-------|:---:|:---:|-------|
+| 3.3.v |  1  |  2  |  5 V  | 
+|       |  3  |  4  |       |
+|       |  5  |  6  |       |
+|       |  7  |  8  |  TX   |
+|       |  9  | 10  |  RX   |
+|  RTS  | 11  | 12  |       |
+|       | 13  | 14  |       |
+|       | 15  | 16  |       |
+|       | 17  | 18  |       |
+|  RW   | 19  | 20  | GND   |
+|       | 21  | 22  | RST   |
+|  EN   | 23  | 24  | RS    |
+|       | 25  | 26  |       |
+
+
+
+
+## 2.2. WIFI 
+
+### 2.2.1 USB 4G Dongle
 
 A comunicação entre o Raspberry com a internet é por meio de um modem roteador WiFi conforme mostrada na figura a seguir.
 
@@ -81,9 +105,40 @@ A comunicação entre o Raspberry com a internet é por meio de um modem roteado
 A vantagem de usar este dispositivo é que além de permitir a ligação direta do Raspberry via USB, ele também permite o acesso outros computadores via SSH ou FTP ao Raspberry por meio da sua rede local WiFi. Assim o trabalho de configuração e manutenção em campo se torna mais prática. 
 As funcionalidade de envio de mensagens SMS também pode ser explorado no futuro para envio de alarmes. 
 
+### 2.2.2 Raspberry Pi Zero (08/09/2020)
+Com o uso do Raspberry Pi Zero há algumas mudanças na configuração do sistema. 
+- Precisa verificar o ttyAMA e ttyS0 pois de default o ttyS0 é habilitada
+
+Para mudar a porta serial para ttyAMA0
+
+Add device tree to /boot/config.txt to disable the bluetooth module.
+
+sudo nano /boot/config.txt
+Add at the end of the file
+
+``dtoverlay=pi3-miniuart-bt``
+
+
+
+- O Raspberry depois de algum tempo perde a rede wifi...  Pode ser o gerenciamento de potência do wifi que faz o sistema desligar
+
+vou testar com
+
+``wiconfig wlan0 power off`` 
+
+Também é necessario liberar o 
+``rpirtscts on ``
+sem ser necessário ser superusuário.
+
+
+
 ## 2.3. Multimedidor
 
-A monitiração dos paramtros elétricos é realizado por um multimedior industrial ligado ao centrel por meio do protocolo de comunicação Modbus-RTU. A figura a seguir mostra uma foto deste equipamento.
+A monitiração dos paramtros elétricos é realizado por um multimedior industrial ligado ao centrel por meio do protocolo de comunicação Modbus-RTU. 
+
+Descrição do multimedidor e do protocolo Modbus. Veja a diferença entre modbus RTU e modbus IP.
+
+A figura a seguir mostra uma foto deste equipamento.
 
 <img src="multimedidor.jpg" alt="Dongle" title="Dongle" width="300"  height="300" />
 
@@ -120,10 +175,11 @@ Por exemplo, se a necessidade é velocidade, tamanho e acesso a um hardware espe
 
 O sistema é implementado por meio de 4 rotinas ou programas listas a seguir:
 
-- Rotina em Python para ler os dados do multimedidor
-- Rotina em Pyhton para publicar os dados
-- Script em bash que temporiza o envio
-- Cron para carregar o programa na inicialização
+- Rotina de leitura de dados do multimedidor por meio de MODBUS-RTU implementado em Python;
+- Rotina para publicar os dados via MQTT em Pyhton;
+- Script em bash que temporiza a chamada à rotina para publicar dados via MQTT;
+- Programa Monitor que apresenta os dados principais no LCD, verifique o link TCP/IP, monitora o sinais do link MODBUS-RTU e link MQTT;
+- Cron para carregar o script e o progaram Monitor na inicialização do Linux;
 
 ## 3.1. Configuração do Raspberry
 
@@ -138,8 +194,13 @@ $ /home/pi/bin/rpirtscts on
 
 ## 3.2. Rotina em Python para ler os dados do multimedidor
 
+Descrição do protocolo Modbus-RTU.  
+Endereço, tipos de registradores e sua implementação no minimalmodbus em python
 
-Nome do arquivo é <modmedidor.py> e implementa o protocolo MODBUS-RTU para fazer a leitura dos valores do medidor.
+
+Nome do arquivo é `modmedidor.py` 
+
+A implementa o protocolo MODBUS-RTU para fazer a leitura dos valores do medidor.
 
 O nome da porta serial e o endereço do medidor está codificado diretamente na rotina. O nome da porta é "/dev/ttyAMA0" e o endereço é 1.
 
@@ -172,7 +233,25 @@ def leia(reg) :
 Essa rotina lê o registro repassado pelo argumento da função endereço 1 do Modbus porta serial 
  
 ## 3.3. Rotina para publicar os dados
-Nome do arquivo <publish_microhydro_002.py>
+
+Descrição do protocolo MQTT.
+ 
+Conceito de tópico.
+
+Descrever os diversos níveis do tópico.
+
+Falta atualizar usando o exemplo do <https://www.embarcados.com.br/mqtt-protocolos-para-iot/>
+
+
+
+### 3.3.1 Versão simples
+
+Essa versão é bem simples e junta todos os valores dos sensores num único string e manda para o broker.
+
+O que limita essa versão é que nao verifica se o link com o Broker está ativa e recebendo. Ele monta o pacote e manda para o broker...
+
+Nome do arquivo no Raspberry é 
+`/home/pi/scr/MicroHydro_Scada/publish_microhydro_002.py`
 
 O parametros de entrada é o nome do logfile que armazena os dados locais.
 
@@ -198,11 +277,15 @@ pot_ativa_C =   round(mod_medidor.leia(29),1)   # potencia 3
 fator_pot   =   round(mod_medidor.leia(53),1)   # fator potencia
 
 s = str(agora)+";"+str(frequencia)+";"+ str(tensao_A)+";"+str(tensao_B)+";"+str(corrente_A)+";"+str(corrente_B)+";"+str(corrente_C)+";"+str(pot_ativa_A)+";"+str(pot_ativa_B)+";"+str(pot_ativa_B)+";"+str(fator_pot)
-publish.single("ChapHydro", s ,hostname="mqtt.eclipse.org")
+publish.single("Topico", s ,hostname="mqtt.eclipse.org")
 ```
+Os dados medidos são mandados para o broker mais também são armazenados num arquivo texto local. Dessa forma tem sempre uma cópia dos ultiimos dados gravados em disco.
 
 Para garantir a integridade dos dados escolheu-se a opção de depois de cada operação de varredura do MODBUS e publicação dos dados com MQTT fechar todas as portas e arquivos.  
 
+Se o cliente Modbus estiver fora, uma mensagem é gravada no arquivo local dizendo que não tem comunicação com cliente Modbus com o *timestamp*
+
+Se o servidor Scada ficar desligado durante algum tempo ainda temos os dados armazenados localmente. Entretanto o programa ainda não verifique isso. Deveria ter uma maneira de fazer o upload destes dados para o Scada quando voltar.
 
 
 ## 3.4. Script para temporizar
@@ -216,7 +299,13 @@ Para permitir a execução deste programa em background dessamarrado de um termi
 nohup ./loop_publish.sh  & > /dev/null &
 ```
 
-## 3.5. Cron para carregar o programa na inicialização
+## 3.5. Monitor
+Programa Monitor que apresenta os dados principais no LCD, verifique o link TCP/IP, monitora o sinais do link MODBUS-RTU e link MQTT.
+
+Este programa é a interface com o usuário e tem que tomar certas decisões que o usuária deveria tomar em casos de malfuncionamento, falha na comunicação ou falha numa suboritina.
+
+
+## 3.6. Cron para carregar o programa na inicialização
 
 O programa para configurar o cron é o 
 ```
@@ -228,5 +317,12 @@ Também pode-se editar o arquivo de configuração do cron diretamente. Nas ulti
 @reboot /home/pi/bin/rpirtscts on
 @reboot nohup /home/pi/src/MicroHydro_Scada/loop_publish.sh  & > /dev/null &
 ```
+
+
+# 4. Atualização remota do algoritmo de controle
+
+Inotools
+
+Acesso remoto à computador com IP dinâmico via Dataplicity
 
 
