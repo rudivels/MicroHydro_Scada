@@ -1,7 +1,7 @@
 # Programa para monitorar multimedidor via MQTT
 Rudivels@ 30/02/2020
 
-Documentação em `/Users/rudi/src/Central_remota_usina/MicroHydro_Scada`
+Documentação em `/Users/rudi/src/Sistema_monitoramento_remoto/MicroHydro_Scada`
 
 Código em `/home/pi/src/src_comm_mqtt_modbus_rtu   MicroHydro_Scada`
 
