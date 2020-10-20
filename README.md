@@ -3,7 +3,7 @@ Rudivels@ 30/02/2020
 
 Documentação em `/Users/rudi/src/Central_remota_usina/MicroHydro_Scada`
 
-Código em `/home/pi/src/MicroHydro_Scada`
+Código em `/home/pi/src/src_comm_mqtt_modbus_rtu   MicroHydro_Scada`
 
 Programa para Raspberry que faça a leitura de valores elétricos um multimedidor com MODBUS-RTU e publica estes dados a cada 10 segundos via internet usando um servidor MQTT públic, além de armazena-los no próprio Raspberry.
 
