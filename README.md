@@ -106,32 +106,31 @@ A comunicação entre o Raspberry com a internet é por meio de um modem roteado
 <img src="figuras/foto_dongle.jpg" alt="Dongle" title="Dongle" width="450"  height="300" />
 
 A vantagem de usar este dispositivo é que além de permitir a ligação direta do Raspberry via USB, ele também permite o acesso outros computadores via SSH ou FTP ao Raspberry por meio da sua rede local WiFi. Assim o trabalho de configuração e manutenção em campo se torna mais prática. 
-As funcionalidade de envio de mensagens SMS também pode ser explorado no futuro para envio de alarmes. 
+As funcionalidades de envio de mensagens SMS também pode ser explorado no futuro para envio de alarmes. 
 
 ### 2.2.2 Raspberry Pi Zero (08/09/2020)
-Com o uso do Raspberry Pi Zero há algumas mudanças na configuração do sistema. 
-- Precisa verificar o ttyAMA e ttyS0 pois de default o ttyS0 é habilitada
 
-Para mudar a porta serial para ttyAMA0
+A segunda versão do sistema foi implementado por meio de Raspberry Zero e isso trouxe alguns ajustes na configuração do sistema que não eram necessários no Raspberry Pi model B+.
 
-Add device tree to /boot/config.txt to disable the bluetooth module.
+A primeira mudança foi a porta serial dafault do Raspberry pi Zero de ttyS0 para o ttyAMA.
 
-sudo nano /boot/config.txt
-Add at the end of the file
+Os procedimentos para mudar a porta serial para ttyAMA0 consiste em adicionar um `device tree` para o arquivo `/boot/config.txt` para dishablitar o módulo de bluetooth.
+Isso pode ser feito pelos seguintes comandos
+
+``sudo nano /boot/config.txt``
+
+E coloca no fim deste arquivo a seguinte instrução.
 
 ``dtoverlay=pi3-miniuart-bt``
 
 
-
-- O Raspberry depois de algum tempo perde a rede wifi...  Pode ser o gerenciamento de potência do wifi que faz o sistema desligar
-
-vou testar com
+Outro problema encontrado é o fato do Raspberry Zero depois de alguns minutos perde a rede wifi. Isso foi resolvido com o desligamento da gerenciamento de potência do wifi. O comando usado para fazer isso foi:
 
 ``wiconfig wlan0 power off`` 
 
-Também é necessario liberar o 
+Outra pendência ainda não resolvido no Raspberry Zero é a necessidade iniciar a porta serial com o controle RTS/CTS sem estar logado como superusário. Por enquanto é necessária manualmente fazer essa operação como superusuário:
+
 ``rpirtscts on ``
-sem ser necessário ser superusuário.
 
 
 
@@ -330,7 +329,7 @@ nohup ./loop_publish.sh  & > /dev/null &
 
 
 
-## 3.6. Cron para carregar o programa na inicialização
+## 3.5. Cron para carregar o programa na inicialização
 
 O programa para configurar o cron é o 
 ```
