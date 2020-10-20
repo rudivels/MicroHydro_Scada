@@ -1,6 +1,9 @@
 # Programa para monitorar multimedidor via MQTT
 Rudivels@ 30/02/2020
-`/Users/rudi/src/Central_remota_usina/MicroHydro_Scada`
+
+Documentação em `/Users/rudi/src/Central_remota_usina/MicroHydro_Scada`
+
+Código em `/home/pi/src/MicroHydro_Scada`
 
 Programa para Raspberry que faça a leitura de valores elétricos um multimedidor com MODBUS-RTU e publica estes dados a cada 10 segundos via internet usando um servidor MQTT públic, além de armazena-los no próprio Raspberry.
 
@@ -15,7 +18,7 @@ Os detalhes dessa implementação esão no repositório <https://github.com/rudi
 Escolheu-se implementar o hardware do central com o Raspberry rodando raspbian (linux debian para Raspberry). O diagrama de bloco de todo o sistema é mostrada no figura a seguir.  
 
 
-<img src="Diagrama_blocos.jpg" alt="Diagrama" title="Diagrama" width="600"  height="450" />
+<img src="figuras/Diagrama_blocos.jpg" alt="Diagrama" title="Diagrama" width="600"  height="450" />
 
 
 Neste trabalho será detalhada a implementação do protocolo Modbus-RTU no Raspberry e a comunicação via MQTT com o Scada no computador de monitoramento.
@@ -31,13 +34,13 @@ O hardware usado na implementação tem os seguintes componentes:
 
 O diagrama de blocos do hardware é mostrada na figura a seguir.
 
-![](Diagrama_blocos_rasp.jpg)
+![](figuras/Diagrama_blocos_rasp.jpg)
 
 
 Um foto do hardware montado com o Raspberry, Conversor RS485, 4G Dongle e Display é mostrada a seguir.
 
 
-<img src="foto_quadro.jpg" alt="Quadro" title="Quadro" width="450"  height="300" />
+<img src="figuras/foto_quadro.jpg" alt="Quadro" title="Quadro" width="450"  height="300" />
 
 
 
@@ -100,7 +103,7 @@ Conector do Raspberry PI com as ligações para o LCD e RS485 segue a tabela a s
 
 A comunicação entre o Raspberry com a internet é por meio de um modem roteador WiFi conforme mostrada na figura a seguir.
 
-<img src="foto_dongle.jpg" alt="Dongle" title="Dongle" width="450"  height="300" />
+<img src="figuras/foto_dongle.jpg" alt="Dongle" title="Dongle" width="450"  height="300" />
 
 A vantagem de usar este dispositivo é que além de permitir a ligação direta do Raspberry via USB, ele também permite o acesso outros computadores via SSH ou FTP ao Raspberry por meio da sua rede local WiFi. Assim o trabalho de configuração e manutenção em campo se torna mais prática. 
 As funcionalidade de envio de mensagens SMS também pode ser explorado no futuro para envio de alarmes. 
@@ -140,7 +143,7 @@ Descrição do multimedidor e do protocolo Modbus. Veja a diferença entre modbu
 
 A figura a seguir mostra uma foto deste equipamento.
 
-<img src="multimedidor.jpg" alt="Dongle" title="Dongle" width="300"  height="300" />
+<img src="figuras/multimedidor.jpg" alt="Dongle" title="Dongle" width="300"  height="300" />
 
 Foi necessário configurar o Multimedidor
  
@@ -158,7 +161,7 @@ O protocolo Modbus prevê um tempo de resposta mínima que depende a velocidade 
 Há diversas maneiras de implementar o conversor RS485 para o Raspberry. Uma maneira é por meio de um conversor USB/RS485 que implementa toda funcionalidade do UART e a comunicação half duplex no próprio conversor. 
 No nosso caso resolvemos usar a própria UART disponível no barramento de expansão do Raspberry. Os pinos 8,10 no barramento de expansão podem ser configurados para recepção RX e transmissão TX respectivamente da porta serial /dev/ttyAMA0. Como os níveis da tensão neste barramento são CMOS 3.3v é necessária um conversor CMOS/TTL/RS485. O esquematico eletrônico desse conversor é mostrada na figura a seguir.
 
-<img src="./conv_cmos_rs485.jpg" alt="Quadro" title="Quadro" width="450"  height="300" />
+<img src="figuras/conv_cmos_rs485.jpg" alt="Quadro" title="Quadro" width="450"  height="300" />
 
 
 Para implementar a comunicação half-duplex é necessária usar mais um pino de saída do barramento de expansão do Raspberry para comandar o sentido do canal de comunicação.
@@ -175,22 +178,48 @@ Por exemplo, se a necessidade é velocidade, tamanho e acesso a um hardware espe
 
 O sistema é implementado por meio de 4 rotinas ou programas listas a seguir:
 
-- Rotina de leitura de dados do multimedidor por meio de MODBUS-RTU implementado em Python;
-- Rotina para publicar os dados via MQTT em Pyhton;
-- Script em bash que temporiza a chamada à rotina para publicar dados via MQTT;
-- Programa Monitor que apresenta os dados principais no LCD, verifique o link TCP/IP, monitora o sinais do link MODBUS-RTU e link MQTT;
-- Cron para carregar o script e o progaram Monitor na inicialização do Linux;
-
-## 3.1. Configuração do Raspberry
+- 3.1. Programa monitor que verifica a situação do link TCP/IP, MODBUS-RTU, MQTT e apresenta uma interface para o usuario por meio de LCD e teclas para diagnóstico e comando.
+- 3.2. Rotina de leitura de dados do multimedidor por meio de MODBUS-RTU implementado em Python;
+- 3.3. Rotina para publicar os dados via MQTT em Pyhton;
+- 3.4. Script em bash que temporiza a chamada à rotina para publicar dados via MQTT;
+- 3.5. Cron para carregar o script e o progaram Monitor na inicialização do Linux;
 
 Antes de rodar os programa tem que configurar o Raspberry para que habiliar a porta serial. Isso pode ser feito com o comando:
 ```
 $ raspi-config
 ```
+
 Outra preocupação é garantir a habilitação para que o módulo serial do Python consegue trabalhar no modo half-duplex. Isso é feito pela instalação do programa do rpirtsrtc disponível no <https://github.com/mholling/rpirtscts> num diretório de trabalho no Raspberry.
 ```
 $ /home/pi/bin/rpirtscts on
 ```
+
+
+## 3.1. Progama Monitor
+Este programa permite que o usuário por meio de LCD e teclas, tenha condições de fazer algumas operações simples, como por exemplo verificar o estado das interfaces de comunicação, testar algum enlace etc. 
+São comandos simples executado por meio dos botões. 
+Este monitor se mostrou necessário, para poder fazer diagnosticos rápidos sem precisar do uso de um computador ligado no raspberry via terminal `ssh`.
+
+A figura abaixo mostra a tela do monitor e as suas teclas de operação.
+
+
+![](figuras/tela_monitor.png)
+
+O programa Monitor que apresenta os pricipais dados no LCD.
+
+- Estado do link TCP/IP, mostrando o endereço IP da máquina
+- Estado do link MODBUS-RTU
+- Estado do link MQTT (falta implementar)
+- Tensão da bateria de nobreak
+- Tensão da rede AC
+- Horário 
+
+
+O programa está no diretório `/home/pi/src/Monitor_IP_LCD` e também usa rotinas de leitura de tensão de bateria e rede elétrica com o [conversor analógico digital para o Raspberry](https://github.com/rudivels/RaspberryPi_Adc)
+
+Este programa é a interface com o usuário permite o que o usuária possa tomar certas decisões em casos de malfuncionamento, falha na comunicação ou falha numa suboritina.
+
+Numa proxima versão vai ser preciso implementar algumas rotinas de configuração geral do software por meio deste monitor, como por exemplo, mudar o endereço do MODBUS-RTU ou mudar de rede WiFi.
 
 ## 3.2. Rotina em Python para ler os dados do multimedidor
 
@@ -299,10 +328,6 @@ Para permitir a execução deste programa em background dessamarrado de um termi
 nohup ./loop_publish.sh  & > /dev/null &
 ```
 
-## 3.5. Monitor
-Programa Monitor que apresenta os dados principais no LCD, verifique o link TCP/IP, monitora o sinais do link MODBUS-RTU e link MQTT.
-
-Este programa é a interface com o usuário e tem que tomar certas decisões que o usuária deveria tomar em casos de malfuncionamento, falha na comunicação ou falha numa suboritina.
 
 
 ## 3.6. Cron para carregar o programa na inicialização
