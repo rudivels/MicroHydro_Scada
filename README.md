@@ -3,7 +3,7 @@ Rudivels@ 30/02/2020
 
 Documentação em `/Users/rudi/Documentos/GitHub/MicroHydro_Scada`
 
-Código em `/home/pi/src/src_comm_mqtt_modbus_rtu`
+Código em `/home/pi/src/src_comm_mqtt_modbus_rtu` está no repositório [neste link](https://github.com/rudivels/src_monitoramento_remoto)
 
 Programa para Raspberry que faça a leitura de valores elétricos um multimedidor com MODBUS-RTU e publica estes dados a cada 10 segundos via internet usando um servidor MQTT públic, além de armazena-los no próprio Raspberry.
 
@@ -314,6 +314,25 @@ Para garantir a integridade dos dados escolheu-se a opção de depois de cada op
 Se o cliente Modbus estiver fora, uma mensagem é gravada no arquivo local dizendo que não tem comunicação com cliente Modbus com o *timestamp*
 
 Se o servidor Scada ficar desligado durante algum tempo ainda temos os dados armazenados localmente. Entretanto o programa ainda não verifique isso. Deveria ter uma maneira de fazer o upload destes dados para o Scada quando voltar.
+
+### 3.3.1. Versão melhorada
+A primeira versão tinhas várias limitações.
+A melhorada versão está em: 
+``/home/pi/src/src_monitoramento_remoto/src_comun_mqtt_modbus_rtu/scan_modbus_to_mqtt_01.py``
+
+
+[link para o repositório no github](https://github.com/rudivels/src_monitoramento_remoto/blob/main/src_comun_mqtt_modbus_rtu/scan_modbus_to_mqtt_01.py)
+
+Em vez de ler os dados do multimedidor e colocar numo único string, optou-se em usar a estrutura de tópicos do MWTT para organizar melhor os dados mandados.
+
+Cada dado é mandado em forma de tópico separada pelo MQTT publisher e o receptor organiza os tóipicos em subdiretórios e grava cada tópico no seu arquivo específico
+
+* Chapberry
+* - rs485
+* * frequencia
+* * tensão
+* * bateria
+* * alimentação 
 
 
 ## 3.4. Script para temporizar
